@@ -21,6 +21,7 @@ $ composer require webguosai/cryptojs-php-aes
 
 ## 在php中使用
 ```php
+use \Webguosai\AesCBC;
 $array = [
     'name1' => '123',
     'name2' => '456'
