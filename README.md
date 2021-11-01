@@ -1,4 +1,4 @@
-<h1 align="center">http client</h1>
+<h1 align="center">cryptojs-php-aes</h1>
 
 <p align="center">
 <a href="https://packagist.org/packages/webguosai/cryptojs-php-aes"><img src="https://poser.pugx.org/webguosai/cryptojs-php-aes/v/stable" alt="Latest Stable Version"></a>
@@ -22,6 +22,7 @@ $ composer require webguosai/cryptojs-php-aes
 ## 在php中使用
 ```php
 use \Webguosai\AesCBC;
+
 $array = [
     'name1' => '123',
     'name2' => '456'
@@ -31,6 +32,7 @@ $iv    = 'iv34567890123456';
 
 //加密
 $encode = AesCBC::encrypt($array, $key, $iv); //d235985c278b9a81acb3ab3b89eee069b0609b8680261589a1b8aca6398a93e1
+
 //解密
 $data   = AesCBC::decrypt($encode, $key, $iv);
 ```
