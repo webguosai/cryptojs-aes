@@ -47,7 +47,6 @@ function encrypt(array, key, iv){
         padding:CryptoJS.pad.Pkcs7
     })
     
-    //return encrypt.toString();
     return encrypt.ciphertext.toString(CryptoJS.enc.Hex);
 }
 //解密
