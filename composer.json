@@ -1,0 +1,27 @@
+{
+    "name": "webguosai/cryptojs-php-aes",
+    "description": "php aes cbc加解密",
+    "keywords": ["http", "cryptojs", "aes"],
+    "support": {
+        "issues": "https://github.com/webguosai/cryptojs-php-aes/issues",
+        "source": "https://github.com/webguosai/cryptojs-php-aes"
+    },
+    "authors": [
+        {
+            "name": "webguosai",
+            "email": "501807312@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.*",
+        "ext-openssl": "*",
+        "ext-json": "*",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Webguosai\\": "src"
+        }
+    },
+    "license": "MIT"
+}
