@@ -1,10 +1,10 @@
-<h1 align="center">cryptojs-php-aes</h1>
+<h1 align="center">cryptojs-aes</h1>
 
 <p align="center">
-<a href="https://packagist.org/packages/webguosai/cryptojs-php-aes"><img src="https://poser.pugx.org/webguosai/cryptojs-php-aes/v/stable" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/webguosai/cryptojs-php-aes"><img src="https://poser.pugx.org/webguosai/cryptojs-php-aes/downloads" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/webguosai/cryptojs-php-aes"><img src="https://poser.pugx.org/webguosai/cryptojs-php-aes/v/unstable" alt="Latest Unstable Version"></a>
-<a href="https://packagist.org/packages/webguosai/cryptojs-php-aes"><img src="https://poser.pugx.org/webguosai/cryptojs-php-aes/license" alt="License"></a>
+<a href="https://packagist.org/packages/webguosai/cryptojs-aes"><img src="https://poser.pugx.org/webguosai/cryptojs-aes/v/stable" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/webguosai/cryptojs-aes"><img src="https://poser.pugx.org/webguosai/cryptojs-aes/downloads" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/webguosai/cryptojs-aes"><img src="https://poser.pugx.org/webguosai/cryptojs-aes/v/unstable" alt="Latest Unstable Version"></a>
+<a href="https://packagist.org/packages/webguosai/cryptojs-aes"><img src="https://poser.pugx.org/webguosai/cryptojs-aes/license" alt="License"></a>
 </p>
 
 
@@ -16,50 +16,62 @@
 ## 安装
 
 ```Shell
-$ composer require webguosai/cryptojs-php-aes
+$ composer require webguosai/cryptojs-aes
 ```
 
 ## 在php中使用
 ```php
-use \Webguosai\AesCBC;
+use \Webguosai\Aes;
 
 $array = [
     'name1' => '123',
     'name2' => '456'
 ];
-$key   = 'key123';
+$key   = 'key4567890123456';
 $iv    = 'iv34567890123456';
 
 //加密
-$encode = AesCBC::encrypt($array, $key, $iv); //d235985c278b9a81acb3ab3b89eee069b0609b8680261589a1b8aca6398a93e1
+$encode = Aes::encrypt($array, $key, $iv); // dc530b22204d3ee7ce729062600fb5c389c43ededed5e5c12d22b82a791fc15e
 
 //解密
-$data   = AesCBC::decrypt($encode, $key, $iv);
+$data   = Aes::decrypt($encode, $key, $iv); // ['name1' => '123', 'name2' => '456']
 ```
 
 ## 在JS中使用
 > npm install crypto-js
+- crypto-js@4.2.0
+
 ```html
 <script type="text/javascript" src="node_modules/crypto-js/crypto-js.js"></script>
 <script>
+const key = 'key4567890123456'
+const iv = 'iv34567890123456'
+const keySize = 128
+
+// 填充key,对照(128=16位,192=24位,256=32位)
+const padKey = key.padEnd(keySize / 8, '\0')
+
+// 填充iv(固定16位)
+const padIv = iv.padEnd(16, '\0')
+
 //加密
-function encrypt(array, key, iv){
-    let encrypt = CryptoJS.AES.encrypt(array, CryptoJS.enc.Utf8.parse(key),{
-        iv:CryptoJS.enc.Utf8.parse(iv),
+function encrypt(array) {
+    let encrypt = CryptoJS.AES.encrypt(array, CryptoJS.enc.Utf8.parse(padKey), {
         mode:CryptoJS.mode.CBC,
-        padding:CryptoJS.pad.Pkcs7
+        padding:CryptoJS.pad.Pkcs7,
+        iv:CryptoJS.enc.Utf8.parse(padIv),
     })
     
     return encrypt.ciphertext.toString(CryptoJS.enc.Hex);
 }
 //解密
-function decrypt(encrypt, key, iv){
+function decrypt(encrypt) {
     encrypt = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Hex.parse(encrypt));
     
-    let decrypted = CryptoJS.AES.decrypt(encrypt, CryptoJS.enc.Utf8.parse(key),{
-        iv:CryptoJS.enc.Utf8.parse(iv),
+    let decrypted = CryptoJS.AES.decrypt(encrypt, CryptoJS.enc.Utf8.parse(padKey), {
         mode:CryptoJS.mode.CBC,
-        padding:CryptoJS.pad.Pkcs7
+        padding:CryptoJS.pad.Pkcs7,
+        iv:CryptoJS.enc.Utf8.parse(padIv),
     })
 
     return decrypted.toString(CryptoJS.enc.Utf8)
