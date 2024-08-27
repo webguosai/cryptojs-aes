@@ -54,27 +54,28 @@ const padKey = key.padEnd(keySize / 8, '\0')
 // 填充iv(固定16位)
 const padIv = iv.padEnd(16, '\0')
 
-//加密
-function encrypt(array) {
-    let encrypt = CryptoJS.AES.encrypt(array, CryptoJS.enc.Utf8.parse(padKey), {
-        mode:CryptoJS.mode.CBC,
-        padding:CryptoJS.pad.Pkcs7,
-        iv:CryptoJS.enc.Utf8.parse(padIv),
+// 加密
+function encrypt(data) {
+    data = JSON.stringify(data)
+    const encrypt = CryptoJS.AES.encrypt(data, CryptoJS.enc.Utf8.parse(padKey), {
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7,
+        iv: CryptoJS.enc.Utf8.parse(padIv)
     })
     
     return encrypt.ciphertext.toString(CryptoJS.enc.Hex);
 }
-//解密
+// 解密
 function decrypt(encrypt) {
     encrypt = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Hex.parse(encrypt));
     
-    let decrypted = CryptoJS.AES.decrypt(encrypt, CryptoJS.enc.Utf8.parse(padKey), {
-        mode:CryptoJS.mode.CBC,
-        padding:CryptoJS.pad.Pkcs7,
-        iv:CryptoJS.enc.Utf8.parse(padIv),
+    const decrypted = CryptoJS.AES.decrypt(encrypt, CryptoJS.enc.Utf8.parse(padKey), {
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7,
+        iv: CryptoJS.enc.Utf8.parse(padIv)
     })
 
-    return decrypted.toString(CryptoJS.enc.Utf8)
+    return JSON.parse(decrypted.toString(CryptoJS.enc.Utf8))
 }
 </script>
 ```
